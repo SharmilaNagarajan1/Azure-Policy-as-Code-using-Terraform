@@ -9,9 +9,9 @@ terraform {
 
 
    cloud {
-     organization = "Sharmila"
+     organization = var.organization
      workspaces {
-        name = "azure-policy-module"
+        name = var.workspace_name
         }
    } 
   
@@ -26,32 +26,19 @@ data "azurerm_client_config" "current" {}
 
 data "azurerm_subscription" "current" {}
 
-resource "azurerm_policy_definition" "location_policy" {
-  name         = "deny-non-east-us-locations"
+resource "azurerm_policy_definition" "restrict_location_policy" {
+  name         = var.policy_name
   policy_type  = "Custom"
   mode         = "All"
-  display_name = "Allow only East US location for resources"
-
-
-  policy_rule = <<POLICY_RULE
- {
-    "if": {
-      "not": {
-        "field": "location",
-         "equals": "${var.location}"
-      }
-    },
-    "then": {
-      "effect": "deny"
-    }
-  }
-POLICY_RULE
+  display_name = var.policy_display_name
+  policy_rule  = file("${path.module}/restrict-region-policy.json")
 
 }
 
 resource "azurerm_subscription_policy_assignment" "policy_assignmnet" {
-  name                   = "deny-non-east-us-locations-assignment"
-  policy_definition_id   = azurerm_policy_definition.location_policy.id  
+  name                   = var.policy_assignment_name
+  policy_definition_id   = azurerm_policy_definition.restrict_location_policy.id  
   subscription_id        = data.azurerm_subscription.current.id
-  description            = "Policy assignment to restrict resource creation to East US location only"
+  description            = var.policy_assignmnet_description
+  display_name           = var.policy_assignment_display_name
 }
