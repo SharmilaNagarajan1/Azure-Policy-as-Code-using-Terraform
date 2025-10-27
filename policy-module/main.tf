@@ -29,7 +29,7 @@ data "azurerm_subscription" "current" {}
 resource "azurerm_policy_definition" "location_policy" {
   name         = "deny-non-east-us-locations"
   policy_type  = "Custom"
-  mode         = "all"
+  mode         = "All"
   display_name = "Allow only East US location for resources"
 
 
@@ -38,7 +38,7 @@ resource "azurerm_policy_definition" "location_policy" {
     "if": {
       "not": {
         "field": "location",
-         "equals": var.location
+         "equals": "${var.location}"
       }
     },
     "then": {
