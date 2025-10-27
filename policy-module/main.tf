@@ -38,7 +38,7 @@ resource "azurerm_policy_definition" "location_policy" {
     "if": {
       "not": {
         "field": "location",
-         "equals": "eastus"
+         "equals": "${var.location}"
       }
     },
     "then": {
