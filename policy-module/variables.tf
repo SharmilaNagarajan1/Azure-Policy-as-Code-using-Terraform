@@ -22,17 +22,7 @@ variable "policy_description" {
   type        = string
   default     = "Policy assignment to restrict resource creation to East US location only"
 }
-variable "organization" {
-  description = "The Terraform Cloud organization name"
-  type        = string
-  default     = "Sharmila"
-}   
-variable "workspace_name" {
-  description = "The Terraform Cloud workspace name"
-  type        = string
-  default     = "azure-policy-module"
-}
-
+  
 variable "policy_assignment_name" {
   description = "The name of the policy assignment"
   type        = string
