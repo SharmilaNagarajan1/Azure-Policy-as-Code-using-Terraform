@@ -9,7 +9,7 @@ terraform {
 
 
    cloud {
-     organization = Sharmila
+     organization = "Sharmila"
      workspaces {
         name = "azure-policy-module"
         }
