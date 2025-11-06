@@ -33,24 +33,28 @@ jobs:
         terraform_version: 1.x
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    - name: Terraform Init
-      id: init
-      run: terraform init
-      # working-directory: ./policy-module
+    - name: Terraform Init      
+      run: 
+        cd policy-module
+        terraform init
+      
 
     - name: Terraform Validate
-      id: validate
-      run: terraform validate
-      # working-directory: ./policy-module
+      run: 
+        cd policy-module 
+        terraform validate
+      
 
     - name: Terraform Plan
-      id: plan
-      run: terraform plan -no-color -input=false
-      # working-directory: ./policy-module
-      # continue-on-error: true
+      run: 
+        cd policy-module 
+        terraform plan -no-color -input=false
+      
 
     - name: Terraform Apply
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve -input=false
-      # working-directory: ./policy-module
+      run: 
+        cd policy-module
+        terraform apply -auto-approve -input=false
+      
 
