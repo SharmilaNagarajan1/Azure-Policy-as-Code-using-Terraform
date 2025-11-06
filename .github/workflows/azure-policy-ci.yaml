@@ -3,14 +3,11 @@ name: Azure Policy CI/CD
 on:
   push:
     branches:
-      - main
-    paths:
-      - 'policy-module/**'
+      - main    
   pull_request:
     branches:
       - main
-    paths:
-      - 'policy-module/**'
+  workflow_dispatch: 
 
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -34,26 +31,26 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
     - name: Terraform Init      
-      run: 
+      run: |
         cd policy-module
         terraform init
       
 
     - name: Terraform Validate
-      run: 
+      run: |
         cd policy-module 
         terraform validate
       
 
     - name: Terraform Plan
-      run: 
+      run: |
         cd policy-module 
         terraform plan -no-color -input=false
       
 
     - name: Terraform Apply
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: 
+      run: |
         cd policy-module
         terraform apply -auto-approve -input=false
       
