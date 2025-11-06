@@ -36,21 +36,21 @@ jobs:
     - name: Terraform Init
       id: init
       run: terraform init
-      working-directory: ./policy-module
+      # working-directory: ./policy-module
 
     - name: Terraform Validate
       id: validate
       run: terraform validate
-      working-directory: ./policy-module
+      # working-directory: ./policy-module
 
     - name: Terraform Plan
       id: plan
       run: terraform plan -no-color -input=false
-      working-directory: ./policy-module
-      continue-on-error: true
+      # working-directory: ./policy-module
+      # continue-on-error: true
 
     - name: Terraform Apply
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: terraform apply -auto-approve -input=false
-      working-directory: ./policy-module
+      # working-directory: ./policy-module
 
